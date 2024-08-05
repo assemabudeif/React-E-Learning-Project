@@ -3,12 +3,32 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {DevSupport} from "@react-buddy/ide-toolbox";
+import {ComponentPreviews, useInitial} from "./dev";
+import {createTheme, ThemeProvider} from "@mui/material";
+import AppStore from "./Store/Store";
+import {Provider} from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#000',
+        },
+    },
+});
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <Provider store={AppStore}>
+        <ThemeProvider theme={theme}>
+            <React.StrictMode>
+                <DevSupport ComponentPreviews={ComponentPreviews}
+                            useInitialHook={useInitial}
+                >
+                    <App/>
+                </DevSupport>
+            </React.StrictMode>
+        </ThemeProvider>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
