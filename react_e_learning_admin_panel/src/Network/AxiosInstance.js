@@ -3,7 +3,7 @@ import {SetLoaderAction} from "../Store/Actions/SetLoaderAction";
 import AppStore from "../Store/Store";
 
 export const AxiosInstance = axios.create({
-    baseURL: 'https://retoolapi.dev/pdCP4Q/',
+    baseURL: 'https://retoolapi.dev/5do1yM/',
 });
 
 

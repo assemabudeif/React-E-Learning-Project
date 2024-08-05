@@ -22,7 +22,7 @@ function App() {
                     <Route path={"/course/:id"} element={<CourseDetailsPage/>}/>
                     <Route path="*" element={<h1>Not Found</h1>}/>
                 </Routes>
-                <FooterComponent/>
+                {/*<FooterComponent/>*/}
             </BrowserRouter>
         </>
     );
