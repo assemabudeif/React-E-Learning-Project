@@ -5,10 +5,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {useTranslation} from "react-i18next";
 
 export default function AlertDialog(props) {
-
-
+    const [t, i18n] = useTranslation("global");
     return (
         <React.Fragment>
             <Dialog
@@ -18,17 +18,19 @@ export default function AlertDialog(props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete this course?"}
+                    {t("course.deleteDialogTitle")}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        This action cannot be undone.
+                        {t("course.deleteDialogContent")}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={props.handleCloseDialog}>Cancel</Button>
+                    <Button onClick={props.handleCloseDialog}>
+                        {t("course.deleteDialogCancel")}
+                    </Button>
                     <Button onClick={props.deleteCourse} autoFocus>
-                        Delete
+                        {t("course.deleteDialogDelete")}
                     </Button>
                 </DialogActions>
             </Dialog>

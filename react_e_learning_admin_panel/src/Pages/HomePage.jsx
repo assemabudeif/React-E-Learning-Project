@@ -1,8 +1,13 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {GetCoursesList} from "../Store/Actions/GetCoursesAction";
-import {Alert, Box, Button, Grid, Skeleton, Slider, TextField, Typography} from "@mui/material";
+import {Alert, Box, Button, Fab, Grid, Skeleton, Slider, TextField, Tooltip, Typography} from "@mui/material";
 import CourseComponent from "../Componentes/CourseComponent";
+import {Add} from "@mui/icons-material";
+import * as React from "react";
+import {Link as RouterLink} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+
 
 function valuetext(value) {
     return `${value}`;
@@ -11,20 +16,22 @@ function valuetext(value) {
 const minDistance = 10;
 
 function HomePage() {
+    const [t, i18n] = useTranslation("global");
     const dispatch = useDispatch();
     const [courses, setCourses] = useState([]);
     const state = useSelector((state) => state.courses.courses) || [];
     const loading = useSelector((state) => state.loading.loading) || false;
-    const [price1, setPrice1] = useState("");
-    const [price2, setPrice2] = useState("");
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
     const [search, setSearch] = useState("");
+    const isSearchEnglish = RegExp("^[a-zA-Z][a-zA-Z0-9]*$").test(search);
 
-    const ChangePrice1 = (event) => {
-        setPrice1(event.target.value);
+    const ChangeMinPrice = (event) => {
+        setMinPrice(event.target.value);
     }
 
-    const ChangePrice2 = (event) => {
-        setPrice2(event.target.value);
+    const ChangeMaxPrice = (event) => {
+        setMaxPrice(event.target.value);
     }
 
     const ChangeSearch = (event) => {
@@ -33,19 +40,19 @@ function HomePage() {
 
     const FilterCourses = () => {
         const data = search ? {
-            price_gte: price1,
-            price_lte: price2,
+            price_gte: minPrice,
+            price_lte: maxPrice,
             name: search,
         } : {
-            price_gte: price1,
-            price_lte: price2,
+            price_gte: minPrice,
+            price_lte: maxPrice,
         }
         dispatch(GetCoursesList(data));
     }
 
     const ResetFilter = () => {
-        setPrice1("");
-        setPrice2("");
+        setMinPrice("");
+        setMaxPrice("");
         SearchCourses();
     }
 
@@ -54,9 +61,15 @@ function HomePage() {
             dispatch(GetCoursesList());
             return;
         }
-        dispatch(GetCoursesList({
-            name: search,
-        }));
+        if (isSearchEnglish) {
+            dispatch(GetCoursesList({
+                name: search,
+            }));
+        } else {
+            dispatch(GetCoursesList({
+                nameAr: search,
+            }));
+        }
     }
 
     useEffect(() => {
@@ -76,25 +89,25 @@ function HomePage() {
     return (
         <>
             {
-                price1 && price2 && price1 > price2 ? (
+                minPrice && maxPrice && minPrice > maxPrice ? (
                     <Alert severity="error" sx={{
                         margin: "2vh",
                         padding: "2vh",
                         width: "40%",
                         marginX: "auto",
                         textAlign: "center",
-                    }}>First price cannot be greater than the second price.</Alert>
+                    }}>{t("home.priceRangeAlert")}</Alert>
                 ) : ""
             }
             {
-                !RegExp("^[0-9]*$").test(price1) || !RegExp("^[0-9]*$").test(price2) ? (
+                !RegExp("^[0-9]*$").test(minPrice) || !RegExp("^[0-9]*$").test(maxPrice) ? (
                     <Alert severity="error" sx={{
                         margin: "2vh",
                         padding: "2vh",
                         width: "40%",
                         marginX: "auto",
                         textAlign: "center",
-                    }}>Price cannot be character.</Alert>
+                    }}>{t("home.priceCharacterAlert")}</Alert>
                 ) : ""
 
             }
@@ -105,10 +118,10 @@ function HomePage() {
             }}>
                 <Slider
                     getAriaLabel={() => 'Price range'}
-                    value={[price1, price2]}
+                    value={[minPrice, maxPrice]}
                     onChange={(event, newValue) => {
-                        setPrice1(newValue[0]);
-                        setPrice2(newValue[1]);
+                        setMinPrice(newValue[0]);
+                        setMaxPrice(newValue[1]);
                     }}
                     valueLabelDisplay="auto"
                     getAriaValueText={valuetext}
@@ -125,22 +138,24 @@ function HomePage() {
                 />
             </Box>
             <Box sx={{
-                width: "40%",
+                width: "100%",
                 margin: "auto",
                 padding: "2vh",
+                display: "flex",
+                justifyContent: "center",
             }}>
                 <TextField sx={{
-                    width: "30%",
+                    width: "15%",
                     marginX: "1vh",
-                }} label="First Price"
-                           value={price1}
-                           onChange={ChangePrice1}/>
+                }} label={t("home.minPrice")}
+                           value={minPrice}
+                           onChange={ChangeMinPrice}/>
                 <TextField sx={{
-                    width: "30%",
+                    width: "15%",
                     marginX: "1vh",
-                }} label="Second Price"
-                           value={price2}
-                           onChange={ChangePrice2}/>
+                }} label={t("home.maxPrice")}
+                           value={maxPrice}
+                           onChange={ChangeMaxPrice}/>
 
                 <Button variant="contained" onClick={FilterCourses} sx={{
                     marginX: "1vh",
@@ -155,7 +170,7 @@ function HomePage() {
                         border: "1px solid black",
                     },
 
-                }}>Filter</Button>
+                }}>{t("home.filter")}</Button>
 
                 <Button variant="outlined" onClick={ResetFilter} sx={{
                     marginX: "1vh",
@@ -167,7 +182,7 @@ function HomePage() {
                         color: "white",
                     },
 
-                }}>Reset</Button>
+                }}>{t("home.reset")}</Button>
             </Box>
 
             <Box sx={{
@@ -178,7 +193,7 @@ function HomePage() {
             }}>
                 <TextField sx={{
                     width: "30%",
-                }} label="Search"
+                }} label={t("home.search")}
                            value={search}
                            onChange={ChangeSearch}/>
 
@@ -195,12 +210,12 @@ function HomePage() {
                         border: "1px solid black",
                     },
                 }}
-                        onClick={SearchCourses}>Search</Button>
+                        onClick={SearchCourses}>{t("home.search")}</Button>
 
             </Box>
 
             <Typography variant={"h6"}
-                        sx={{textAlign: "center", fontSize: "4vh", margin: "2vh"}}>Courses</Typography>
+                        sx={{textAlign: "center", fontSize: "4vh", margin: "2vh"}}>{t("home.courses")}</Typography>
             {
                 loading ? (<Grid container rowSpacing={10} columnSpacing={{xs: 1, sm: 2, md: 3}} alignItems={"center"}
                                  alignContent={"center"} sx={{
@@ -239,6 +254,19 @@ function HomePage() {
 
                 )
             }
+            <div style={{
+                position: "fixed",
+                right: i18n.language === "en" ? "3vh" : "auto",
+                left: i18n.language === "ar" ? "3vh" : "auto",
+                bottom: "3vh",
+            }}>
+                <Tooltip title={t("addCourse.title")}>
+                    <Fab color="primary" aria-label="add" type={"button"} component={RouterLink}
+                         to={"/addNewCourse"}>
+                        <Add/>
+                    </Fab>
+                </Tooltip>
+            </div>
         </>
     );
 }

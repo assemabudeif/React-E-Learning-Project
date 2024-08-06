@@ -1,0 +1,58 @@
+{
+  "appBar": {
+    "title": "لوحة الادارة"
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "usernameValidation": "يجب أن يحتوي اسم المستخدم على 3 أحرف على الأقل، ويمكن أن يحتوي فقط على أحرف وأرقام",
+    "passwordValidation": "يجب أن تحتوي كلمة المرور على 5 أحرف على الأقل",
+    "thisFieldRequired": "هذا الحقل مطلوب",
+    "login": "تسجيل الدخول",
+    "invalid": "اسم المستخدم أو كلمة المرور غير صالحة",
+    "empty": "لا يمكن أن يكون اسم المستخدم وكلمة المرور فارغين",
+    "error": "حدث خطأ"
+  },
+  "home": {
+    "courses": "الدورات",
+    "minPrice": "الحد الأدنى للسعر",
+    "maxPrice": "الحد الأقصى للسعر",
+    "search": "بحث",
+    "reset": "إعادة تعيين",
+    "noCourses": "لم يتم العثور على دورات",
+    "filter": "تصفية",
+    "priceRangeAlert": "لا يمكن أن يكون السعر الأول أكبر من السعر الثاني.",
+    "priceCharacterAlert": "لا يمكن أن يكون السعر حرفًا."
+  },
+  "addCourse": {
+    "title": "إضافة دورة",
+    "name": "الاسم",
+    "nameAr": "الاسم (بالعربية)",
+    "price": "السعر",
+    "description": "الوصف",
+    "descriptionAr": "الوصف (بالعربية)",
+    "duration": "المدة",
+    "image": "الصورة",
+    "add": "إضافة"
+  },
+  "editCourse": {
+    "title": "تعديل الدورة",
+    "name": "الاسم",
+    "nameAr": "الاسم (بالعربية)",
+    "price": "السعر",
+    "description": "الوصف",
+    "descriptionAr": "الوصف (بالعربية)",
+    "duration": "المدة",
+    "image": "الصورة",
+    "edit": "تعديل"
+  },
+  "course": {
+    "delete": "حذف",
+    "edit": "تعديل",
+    "deleteDialogTitle": "هل أنت متأكد من حذف هذه الدورة؟",
+    "deleteDialogContent": "لا يمكن التراجع عن هذا الإجراء.",
+    "deleteDialogCancel": "إلغاء",
+    "deleteDialogDelete": "حذف"
+  }
+}

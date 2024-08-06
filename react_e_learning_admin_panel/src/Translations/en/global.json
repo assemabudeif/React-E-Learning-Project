@@ -1,0 +1,58 @@
+{
+  "appBar": {
+    "title": "Admin Panel"
+  },
+  "login": {
+    "title": "Login",
+    "username": "User Name",
+    "password": "Password",
+    "usernameValidation": "Username must be at least 3 characters, and can only contain letters, numbers",
+    "passwordValidation": "Password must be at least 5 characters",
+    "thisFieldRequired": "This field is required",
+    "login": "Login",
+    "invalid": "Invalid username or password",
+    "empty": "Username and password cannot be empty",
+    "error": "An error occurred"
+  },
+  "home": {
+    "courses": "Courses",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "search": "Search",
+    "reset": "Reset",
+    "noCourses": "No courses found",
+    "filter": "Filter",
+    "priceRangeAlert": "First price cannot be greater than the second price.",
+    "priceCharacterAlert": "Price cannot be character."
+  },
+  "addCourse": {
+    "title": "Add Course",
+    "name": "Name",
+    "nameAr": "Name (Arabic)",
+    "price": "Price",
+    "description": "Description",
+    "descriptionAr": "Description (Arabic)",
+    "duration": "Duration",
+    "image": "Image",
+    "add": "Add"
+  },
+  "editCourse": {
+    "title": "Edit Course",
+    "name": "Name",
+    "nameAr": "Name (Arabic)",
+    "price": "Price",
+    "description": "Description",
+    "descriptionAr": "Description (Arabic)",
+    "duration": "Duration",
+    "image": "Image",
+    "edit": "Edit"
+  },
+  "course": {
+    "delete": "Delete",
+    "edit": "Edit",
+    "deleteDialogTitle": "Are you sure to delete this course?",
+    "deleteDialogContent": "This action cannot be undone.",
+    "deleteDialogCancel": "Cancel",
+    "deleteDialogDelete": "Delete"
+  }
+}

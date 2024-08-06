@@ -1,8 +1,10 @@
 import Container from "@mui/material/Container";
 import {Link as RoutLink} from "react-router-dom";
 import {Image} from "@mui/icons-material";
+import {useTranslation} from "react-i18next";
 
 function CourseComponent(props) {
+    const [t, i18n] = useTranslation("global");
     return (
         <Container component={RoutLink} to={"/course/" + props.course.id} sx={{
             padding: "1vh",
@@ -46,7 +48,7 @@ function CourseComponent(props) {
                 overflow: "hidden",
                 borderRadius: "1vh",
                 boxShadow: "0 0 1vh rgba(0, 0, 0, 0.5)"
-                
+
             }}>
                 {
                     props.course.image !== null ? (
@@ -59,7 +61,7 @@ function CourseComponent(props) {
                     }}/>)
                 }
             </div>
-            <h2>{props.course.name}</h2>
+            <h2>{i18n.language === "en" ? props.course.name : props.course.nameAr}</h2>
         </Container>
     )
 }

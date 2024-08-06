@@ -8,9 +8,12 @@ import {Delete, Edit, Send} from "@mui/icons-material";
 import {AxiosInstance} from "../Network/AxiosInstance";
 import AlertDialog from "../Componentes/AlertDialogComp";
 import * as React from "react";
+import {useTranslation} from "react-i18next";
+import {Link as ReactRouter} from "react-router-dom";
 
 function CourseDetailsPage() {
     const dispatch = useDispatch();
+    const [t, i18n] = useTranslation("global");
     const params = useParams();
     const course = useSelector((state) => state.course.course) || {};
     const [open, setOpen] = useState(false);
@@ -85,7 +88,7 @@ function CourseDetailsPage() {
                             }}>
                                 <img src={course.image} style={{
                                     width: "50%"
-                                }} alt={course.name}/>
+                                }} alt={i18n.language === "en" ? course.name : course.nameAr}/>
                             </Box>
                             <Typography variant={"h3"} sx={{
                                 textAlign: "center",
@@ -93,7 +96,7 @@ function CourseDetailsPage() {
                                 color: "black",
                                 fontWeight: "bold"
                             }}>
-                                {course.name}
+                                {i18n.language === "en" ? course.name : course.nameAr}
                             </Typography>
 
                             <Typography variant={"h5"} sx={{
@@ -101,7 +104,7 @@ function CourseDetailsPage() {
                                 padding: "2vh",
                                 color: "black"
                             }}>
-                                {course.description}
+                                {i18n.language === "en" ? course.description : course.descriptionAr}
                             </Typography>
 
                             <Typography variant={"h6"} sx={{
@@ -109,8 +112,14 @@ function CourseDetailsPage() {
                                 padding: "2vh",
                                 color: "black"
                             }}>
-                                Price: {course.price}
-                            </Typography>
+                                {t("addCourse.price")}: {course.price}
+                            </Typography><Typography variant={"h6"} sx={{
+                            textAlign: "start",
+                            padding: "2vh",
+                            color: "black"
+                        }}>
+                            {t("addCourse.duration")}: {course.duration}
+                        </Typography>
                             <Box sx={{
                                 display: "flex",
                                 justifyContent: "start",
@@ -118,13 +127,18 @@ function CourseDetailsPage() {
                                 height: "auto",
                                 width: "100%",
                             }}>
-                                <Button variant="outlined" startIcon={<Delete/>}
+                                <Button variant="outlined" startIcon={i18n.language === "en" && <Delete/>}
                                         onClick={handleClickOpenDialog}>
-                                    Delete
+                                    {t("course.delete")}
                                 </Button>
                                 <Box sx={{width: "2vh"}}/>
-                                <Button variant="contained" endIcon={<Edit/>}>
-                                    Edit
+                                <Button variant="contained" endIcon={i18n.language === "en" && <Edit/>}
+                                        component={ReactRouter}
+                                        to={`/course/${course.id}/edit`}
+                                        state={{
+                                            course: course
+                                        }}>
+                                    {t("course.edit")}
                                 </Button>
                             </Box>
                         </Container>

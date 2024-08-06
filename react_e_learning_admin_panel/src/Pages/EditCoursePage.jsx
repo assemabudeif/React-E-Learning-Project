@@ -4,19 +4,21 @@ import {useState} from "react";
 import {useTranslation} from "react-i18next";
 import {AxiosInstance} from "../Network/AxiosInstance";
 import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
-function AddNewCoursePage() {
+function EditCoursePage() {
+    const location = useLocation();
     const [t, i18n] = useTranslation("global");
     const navigator = useNavigate();
-    const [courseNameEn, setCourseNameEn] = useState("");
-    const [courseNameAr, setCourseNameAr] = useState("");
-    const [courseDescriptionEn, setCourseDescriptionEn] = useState("");
-    const [courseDescriptionAr, setCourseDescriptionAr] = useState("");
-    const [coursePrice, setCoursePrice] = useState("");
-    const [courseImage, setCourseImage] = useState("");
-    const [courseDuration, setCourseDuration] = useState(0);
+    const [courseNameEn, setCourseNameEn] = useState(location.state.course.name);
+    const [courseNameAr, setCourseNameAr] = useState(location.state.course.nameAr);
+    const [courseDescriptionEn, setCourseDescriptionEn] = useState(location.state.course.description);
+    const [courseDescriptionAr, setCourseDescriptionAr] = useState(location.state.course.descriptionAr);
+    const [coursePrice, setCoursePrice] = useState(location.state.course.price);
+    const [courseImage, setCourseImage] = useState(location.state.course.image);
+    const [courseDuration, setCourseDuration] = useState(location.state.course.duration);
     const loading = useSelector((state) => state.loading.loading) || false;
+    const params = useParams();
 
     const ChangeData = (event) => {
         const name = event.target.name;
@@ -49,7 +51,7 @@ function AddNewCoursePage() {
     }
 
     const AddNewCourse = () => {
-        AxiosInstance.post("/courses", {
+        AxiosInstance.put("/courses/" + params.id, {
             name: courseNameEn,
             nameAr: courseNameAr,
             description: courseDescriptionEn,
@@ -88,54 +90,54 @@ function AddNewCoursePage() {
                 marginY: "3vh",
                 flexDirection: "column",
             }}>
-                <Typography variant={"h4"}>{t("addCourse.title")}</Typography>
+                <Typography variant={"h4"}>{t("editCourse.title")}</Typography>
                 <br/>
                 <br/>
                 <TextField value={courseNameEn} name={"courseNameEn"}
                            onChange={ChangeData}
-                           label={t("addCourse.name")}
+                           label={t("editCourse.name")}
                            sx={{
                                width: "50%",
                                marginY: "1vh"
                            }}/>
                 <TextField value={courseNameAr} name={"courseNameAr"}
                            onChange={ChangeData}
-                           label={t("addCourse.nameAr")}
+                           label={t("editCourse.nameAr")}
                            sx={{
                                width: "50%",
                                marginY: "1vh"
                            }}/>
                 <TextField value={courseDescriptionEn} name={"courseDescriptionEn"}
                            onChange={ChangeData}
-                           label={t("addCourse.description")}
+                           label={t("editCourse.description")}
                            sx={{
                                width: "50%",
                                marginY: "1vh"
                            }}/>
                 <TextField value={courseDescriptionAr} name={"courseDescriptionAr"}
                            onChange={ChangeData}
-                           label={t("addCourse.descriptionAr")}
+                           label={t("editCourse.descriptionAr")}
                            sx={{
                                width: "50%",
                                marginY: "1vh"
                            }}/>
                 <TextField value={coursePrice} name={"coursePrice"}
                            onChange={ChangeData}
-                           label={t("addCourse.price")}
+                           label={t("editCourse.price")}
                            sx={{
                                width: "50%",
                                marginY: "1vh"
                            }}/>
                 <TextField value={courseImage} name={"courseImage"}
                            onChange={ChangeData}
-                           label={t("addCourse.image")}
+                           label={t("editCourse.image")}
                            sx={{
                                width: "50%",
                                marginY: "1vh"
                            }}/>
                 <TextField value={courseDuration} name={"courseDuration"}
                            onChange={ChangeData}
-                           label={t("addCourse.duration")}
+                           label={t("editCourse.duration")}
                            sx={{
                                width: "50%",
                                marginY: "1vh"
@@ -150,7 +152,7 @@ function AddNewCoursePage() {
                         }}
                         onClick={AddNewCourse}
                         disabled={!(courseNameAr && courseNameEn && courseDescriptionAr && courseDescriptionEn && courseDescriptionAr && courseImage && coursePrice && courseDuration)}>
-                    {t("addCourse.add")}
+                    {t("editCourse.edit")}
                 </Button>
 
             </Container>
@@ -158,4 +160,4 @@ function AddNewCoursePage() {
     );
 }
 
-export default AddNewCoursePage;
+export default EditCoursePage;
