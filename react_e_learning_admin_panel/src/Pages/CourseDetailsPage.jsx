@@ -46,7 +46,7 @@ function CourseDetailsPage() {
         AxiosInstance.delete("courses/" + course.id).then(
             (res) => {
                 handleClick();
-                navigate("/");
+                navigate("/home");
             }
         ).catch((error) => console.error(error));
     }

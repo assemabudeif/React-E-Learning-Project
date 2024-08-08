@@ -1,0 +1,25 @@
+{
+  "appBar": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "wishlist": "Wishlist",
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "Signup",
+    "contactus": "Contact Us",
+    "cart": "Cart",
+    "about": "About"
+  },
+  "login": {
+    "title": "Login",
+    "username": "User Name",
+    "password": "Password",
+    "usernameValidation": "Username must be at least 3 characters, and can only contain letters, numbers",
+    "passwordValidation": "Password must be at least 5 characters",
+    "thisFieldRequired": "This field is required",
+    "login": "Login",
+    "invalid": "Invalid username or password",
+    "empty": "Username and password cannot be empty",
+    "error": "An error occurred"
+  }
+}

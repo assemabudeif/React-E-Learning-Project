@@ -87,7 +87,8 @@ function LoginPage() {
                         {username.length === 0 ? t("login.thisFieldRequired") : t("login.usernameValidation")}
                     </Alert>
                 }
-                <TextField label={t("login.password")} variant={"outlined"} fullWidth margin={"normal"} sx={{
+                <TextField type={"password"} label={t("login.password")} variant={"outlined"} fullWidth
+                           margin={"normal"} sx={{
                     width: "100%",
                     marginY: "1vh"
                 }} value={password} name={"password"}
@@ -118,7 +119,8 @@ function LoginPage() {
                     height: "6vh",
                     marginY: "2vh",
                     borderRadius: "10",
-                }} onClick={Login}>
+                }} onClick={Login}
+                        disabled={usernameError || passwordError}>
                     {t("login.login")}
                 </Button>
             </Box>

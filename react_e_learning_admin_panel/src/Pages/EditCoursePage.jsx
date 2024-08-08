@@ -60,7 +60,7 @@ function EditCoursePage() {
             image: courseImage,
             duration: courseDuration,
         }).then((response) => {
-            navigator("/");
+            navigator("/home");
         }).catch((error) => {
             console.error(error);
         });
