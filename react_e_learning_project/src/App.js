@@ -14,6 +14,7 @@ import SignUpPage from "./Pages/SignUpPage";
 import LoginPage from "./Pages/LoginPage";
 import {Typography} from "@mui/material";
 import FooterComponent from "./Components/FooterComponent";
+import CartPage from "./Pages/CartPage";
 
 function App() {
     const [t, i18n] = useTranslation("global");
@@ -23,14 +24,15 @@ function App() {
                 <ResponsiveAppBar/>
                 <Routes>
                     <Route path={"/"} element={<HomePage/>}/>
-                    <Route path={"/products"} element={<CoursesPage/>}/>
-                    <Route path={"/products/:id"} element={<CourseComp/>}/>
+                    <Route path={"/courses"} element={<CoursesPage/>}/>
+                    <Route path={"/courses/:id"} element={<CourseComp/>}/>
                     <Route path={"/dashboard"} element={<DashboardPage/>}/>
                     <Route path={"/about"} element={<AboutPage/>}/>
                     <Route path={"/contact-us"} element={<ContactUsPage/>}/>
                     <Route path={"/wish-list"} element={<WishListPage/>}/>
                     <Route path={"/login"} element={<LoginPage/>}/>
                     <Route path={"/signup"} element={<SignUpPage/>}/>
+                    <Route path={"/cart"} element={<CartPage/>}/>
                     <Route path={"*"} element={<Box sx={{
                         display: "flex",
                         justifyContent: "center",

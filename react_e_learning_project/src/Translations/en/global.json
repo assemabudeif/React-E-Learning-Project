@@ -21,5 +21,16 @@
     "invalid": "Invalid username or password",
     "empty": "Username and password cannot be empty",
     "error": "An error occurred"
+  },
+  "home": {
+    "courses": "Courses",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "search": "Search",
+    "reset": "Reset",
+    "noCourses": "No courses found",
+    "filter": "Filter",
+    "priceRangeAlert": "First price cannot be greater than the second price.",
+    "priceCharacterAlert": "Price cannot be character."
   }
 }

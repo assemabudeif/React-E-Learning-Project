@@ -33,14 +33,14 @@ function ResponsiveAppBar() {
             title: t("appBar.wishlist"),
             path: '/wish-list',
         },
-        {
-            title: t("appBar.contactus"),
-            path: '/contact-us',
-        },
-        {
-            title: t("appBar.about"),
-            path: '/about'
-        },
+        // {
+        //     title: t("appBar.contactus"),
+        //     path: '/contact-us',
+        // },
+        // {
+        //     title: t("appBar.about"),
+        //     path: '/about'
+        // },
     ]);
     const [drawerPages, setDrawerPages] = useState([
         ...pages,
@@ -197,11 +197,11 @@ function ResponsiveAppBar() {
                                     {t("appBar.logout")}
                                 </Button>
                             ) : (<>
-                                <Button variant={"outlined"}>
+                                <Button variant={"outlined"} component={RouterLink} to={"/login"}>
                                     {t("appBar.login")}
                                 </Button>
                                 &nbsp;
-                                <Button variant={"contained"}>
+                                <Button variant={"contained"} component={RouterLink} to={"/signup"}>
                                     {t("appBar.signup")}
                                 </Button>
                             </>)

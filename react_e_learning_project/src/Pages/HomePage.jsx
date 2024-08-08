@@ -48,36 +48,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-// import React from "react";
-
-// import background2 from "../imags/header2.jfif";
-
-// import CoursesPage from "./CoursesPage";
-// const HomePage = () => {
-//   return (
-//     <div className="hero">
-//       <div className="card bg-primary text-white border-0">
-//         <img
-//           src={background2}
-//           className="card-img"
-//           alt="background"
-//           style={{ height: "400px" }}
-//         />
-
-//         <div className="card-img-overlay d-flex flex-column justify-content-center">
-//           <div className="container">
-//             <h5 className="card-title display-3 fw-bolder mb-0">
-//               {/* NEW SEASON ARRIVAL */}
-//               Every course has real-world projects designed to develop the
-//               skills you need to reach your career goals.
-//             </h5>
-//             {/* <p className="card-text lead fs-2 mt-10">CHOOSE WHAT U NEED</p> */}
-//           </div>
-//         </div>
-//       </div>
-//       <CoursesPage />
-//     </div>
-//   );
-// };
-// export default HomePage;
