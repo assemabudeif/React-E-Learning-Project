@@ -5,18 +5,36 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {Drawer} from "@mui/material";
 import logo from "../imags/logo/logo.png";
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Logout} from "@mui/icons-material";
+import AlertDialog from "./AlertDialogComp";
+import {useDispatch, useSelector} from "react-redux";
+import {SetIsLoggedIn} from "../Store/Action/IsLoggedInAction";
 
 function ResponsiveAppBar() {
     const [open, setOpen] = useState(false);
     const [t, i18n] = useTranslation("global");
-    const isLoggedIn = localStorage.getItem("token") || false;
-    const [pages, setPages] = useState([
+    const isLoggedIn = useSelector(state => state.isLoggedIn.isLoggedIn) || false;
+    const dispatch = useDispatch();
+    // const [pages, setPages] = useState();
+    // const [drawerPages, setDrawerPages] = useState([
+    //     ...pages,
+    //     {
+    //         title: t("appBar.login"),
+    //         path: '/login',
+    //     },
+    //     {
+    //         title: t("appBar.signup"),
+    //         path: '/signup',
+    //     },
+    // ]);
+    const [openDialog, setOpenDialog] = useState(false);
+    const navigator = useNavigate();
+    let pages = [
         {
             title: t("appBar.dashboard"),
             path: "/dashboard"
@@ -25,24 +43,17 @@ function ResponsiveAppBar() {
             title: t("appBar.home"),
             path: "/"
         },
-        {
-            title: t("appBar.cart"),
-            path: "/cart"
-        },
+        // {
+        //     title: t("appBar.cart"),
+        //     path: "/cart"
+        // },
         {
             title: t("appBar.wishlist"),
             path: '/wish-list',
         },
-        // {
-        //     title: t("appBar.contactus"),
-        //     path: '/contact-us',
-        // },
-        // {
-        //     title: t("appBar.about"),
-        //     path: '/about'
-        // },
-    ]);
-    const [drawerPages, setDrawerPages] = useState([
+    ]
+
+    let drawerPages = [
         ...pages,
         {
             title: t("appBar.login"),
@@ -52,20 +63,36 @@ function ResponsiveAppBar() {
             title: t("appBar.signup"),
             path: '/signup',
         },
-    ]);
+    ]
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+
+    const HandleLogout = () => {
+        setOpenDialog(false)
+        localStorage.removeItem("isLoggedIn");
+        dispatch(SetIsLoggedIn(false));
+        navigator("/");
+    }
 
     useEffect(() => {
         if (!isLoggedIn) {
             const newPages = pages.filter(page => page.path !== '/cart' && page.path !== '/dashboard');
-            setPages(newPages);
+            // setPages(newPages);
+            pages=newPages;
 
             const newDrawerPages = drawerPages.filter(page => page.path !== '/cart' && page.path !== '/dashboard');
-            setDrawerPages(newDrawerPages);
+            // setDrawerPages(newDrawerPages);
         } else {
             const newDrawerPages = drawerPages.filter(page => page.path !== '/login' && page.path !== '/signup');
-            setDrawerPages(newDrawerPages);
+            // setDrawerPages(newDrawerPages);
+            drawerPages=newDrawerPages;
         }
     }, []);
+
+
 
 
     const ChangeLanguage = () => {
@@ -73,9 +100,6 @@ function ResponsiveAppBar() {
         i18n.changeLanguage(lang).then(r => localStorage.setItem("language", lang));
     }
 
-
-    const handleCloseNavMenu = () => {
-    };
 
     const toggleDrawer = (state) => {
         setOpen(state);
@@ -158,7 +182,7 @@ function ResponsiveAppBar() {
                                 display: {xs: 'flex', md: 'none'},
                                 color: 'black',
                                 backgroundColor: 'white',
-                            }}>
+                            }} onClick={() => setOpenDialog(true)}>
                                 <Logout/>
                             </IconButton>
                         )
@@ -172,7 +196,6 @@ function ResponsiveAppBar() {
                     }}>
                         {pages.map((page) => (
                             <Button
-                                onClick={handleCloseNavMenu}
                                 component={RouterLink}
                                 to={page.path}
                                 sx={{
@@ -193,7 +216,7 @@ function ResponsiveAppBar() {
                         &nbsp;
                         {
                             isLoggedIn ? (
-                                <Button variant={"contained"}>
+                                <Button variant={"contained"} onClick={() => setOpenDialog(true)}>
                                     {t("appBar.logout")}
                                 </Button>
                             ) : (<>
@@ -207,6 +230,8 @@ function ResponsiveAppBar() {
                             </>)
                         }
                     </Box>
+                    <AlertDialog content={""} title={""} openDialog={openDialog} handleCloseDialog={handleCloseDialog}
+                                 confirm={HandleLogout}/>
 
                 </Toolbar>
             </Container>

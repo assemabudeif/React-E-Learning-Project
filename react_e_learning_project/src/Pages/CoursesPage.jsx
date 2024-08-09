@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import axios from "axios";
+import {Link as RouterLink} from "react-router-dom";
 import {
     Button,
     Container,
@@ -15,6 +14,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {GetCoursesList} from "../Store/Action/GetCoursesAction";
 import Box from "@mui/material/Box";
 import {useTranslation} from "react-i18next";
+import IconButton from "@mui/material/IconButton";
+import {Favorite} from "@mui/icons-material";
+import CourseComp from "../Components/CourseComp";
 
 const CoursesPage = () => {
 
@@ -26,6 +28,7 @@ const CoursesPage = () => {
     const [t, i18n] = useTranslation("global");
     const [search, setSearch] = useState("");
     const isSearchEnglish = RegExp("^[a-zA-Z][a-zA-Z0-9]*$").test(search);
+
 
     const ChangeMinPrice = (event) => {
         setMinPrice(event.target.value);
@@ -40,15 +43,17 @@ const CoursesPage = () => {
 
 
     const FilterCourses = () => {
-        const data = search ? {
-            price_gte: minPrice,
-            price_lte: maxPrice,
-            name: search,
-        } : {
-            price_gte: minPrice,
-            price_lte: maxPrice,
+        if(minPrice.length !== 0 && maxPrice.length !== 0) {
+            const data = search ? {
+                price_gte: minPrice,
+                price_lte: maxPrice,
+                name: search,
+            } : {
+                price_gte: minPrice,
+                price_lte: maxPrice,
+            }
+            dispatch(GetCoursesList(data));
         }
-        dispatch(GetCoursesList(data));
     }
 
     const ResetFilter = () => {
@@ -72,6 +77,7 @@ const CoursesPage = () => {
             }));
         }
     }
+
     useEffect(() => {
         dispatch(GetCoursesList());
 
@@ -165,35 +171,7 @@ const CoursesPage = () => {
                 <Grid container spacing={4} justifyContent="center">
                     {courses.map((Course) => (
                         <Grid item xs={12} sm={6} md={4} key={Course.id}>
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    image={Course.image}
-                                    alt={Course.name}
-                                    sx={{
-                                        height: "20vh",
-                                        width: "100%"
-                                    }}
-                                />
-                                <CardContent>
-                                    <Typography variant="h6" component="div">
-                                        {Course.name.length > 12
-                                            ? `${Course.name.substring(0, 12)}...`
-                                            : Course.name}
-                                    </Typography>
-                                    <Typography variant="body1" color="textSecondary">
-                                        ${Course.price}
-                                    </Typography>
-                                    <Link
-                                        to={`/courses/${Course.id}`}
-                                        style={{textDecoration: "none"}}
-                                    >
-                                        <Button variant="outlined" color="primary" fullWidth>
-                                            Buy Now
-                                        </Button>
-                                    </Link>
-                                </CardContent>
-                            </Card>
+                            <CourseComp course={Course}/>
                         </Grid>
                     ))}
                 </Grid>

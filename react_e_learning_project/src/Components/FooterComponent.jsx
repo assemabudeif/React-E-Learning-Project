@@ -5,7 +5,7 @@ import Link from "@mui/material/Link";
 function FooterComponent() {
     return (
         <Box sx={{
-            backgroundColor: "black",
+            backgroundColor: "#060f33",
             color: "white",
             display: "flex",
             flexDirection: "column",

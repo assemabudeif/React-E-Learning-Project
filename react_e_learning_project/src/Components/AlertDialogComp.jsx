@@ -18,19 +18,19 @@ export default function AlertDialog(props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {t("course.deleteDialogTitle")}
+                    {props.title}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        {t("course.deleteDialogContent")}
+                        {props.content}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.handleCloseDialog}>
-                        {t("course.deleteDialogCancel")}
+                        {t("dialog.cancel")}
                     </Button>
-                    <Button onClick={props.deleteCourse} autoFocus>
-                        {t("course.deleteDialogDelete")}
+                    <Button onClick={props.confirm} autoFocus>
+                        {t("dialog.confirm")}
                     </Button>
                 </DialogActions>
             </Dialog>

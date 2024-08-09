@@ -1,5 +1,5 @@
 const INITIAL_VALUE = {
-    favorites: []
+    favorites: JSON.parse(localStorage.getItem("favorites")) || []
 }
 export default function FavoritesReducer(state = INITIAL_VALUE, action) {
     switch (action.type) {

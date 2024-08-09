@@ -2,7 +2,7 @@ import "./App.css";
 import HomePage from "./Pages/HomePage";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import CoursesPage from "./Pages/CoursesPage";
-import CourseComp from "./Components/CourseComp";
+import CourseDetailsPage from "./Pages/CourseDetailsPage";
 import ResponsiveAppBar from "./Components/ResponsiveAppBar";
 import DashboardPage from "./Pages/DashboardPage";
 import AboutPage from "./Pages/AboutPage";
@@ -25,7 +25,7 @@ function App() {
                 <Routes>
                     <Route path={"/"} element={<HomePage/>}/>
                     <Route path={"/courses"} element={<CoursesPage/>}/>
-                    <Route path={"/courses/:id"} element={<CourseComp/>}/>
+                    <Route path={"/courses/:id"} element={<CourseDetailsPage/>}/>
                     <Route path={"/dashboard"} element={<DashboardPage/>}/>
                     <Route path={"/about"} element={<AboutPage/>}/>
                     <Route path={"/contact-us"} element={<ContactUsPage/>}/>

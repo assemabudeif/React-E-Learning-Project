@@ -1,4 +1,4 @@
-import CourseComp from "../../Components/CourseComp";
+import CourseDetailsPage from "../../Pages/CourseDetailsPage";
 
 export const addCart = (Product) => {
     return {

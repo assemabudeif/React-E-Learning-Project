@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addCart} from "../Store/Action/IndexACT";
 import axios from "axios";
 import {useParams, Link} from "react-router-dom";
@@ -9,38 +9,84 @@ import {
     Container,
     Grid,
     CircularProgress,
-    Card,
     CardMedia,
-    CardContent,
+    CardContent, Alert,
 } from "@mui/material";
+import {AxiosInstance} from "../Network/AxiosInstance";
+import {useTranslation} from "react-i18next";
+import Box from "@mui/material/Box";
 
-const CourseComp = () => {
+const CourseDetailsPage = () => {
     const {id} = useParams();
-    const [product, setProduct] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [course, setCourse] = useState([]);
+    const loading = useSelector(state => state.loader.loader);
+    const [t, i18n] = useTranslation("global");
+    const [warning, setWarning] = useState(false);
+    const [enrolledSuccess, setEnrolledSuccess] = useState(false);
+    const [isEnrolled, setIsEnrolled] = useState(false);
 
-    const dispatch = useDispatch();
-    const addProduct = (product) => {
-        dispatch(addCart(product));
-    };
+    const CheckEnrolled = () => {
+        const enrolledCourses = JSON.parse(localStorage.getItem("enrolledCourses")) || [];
+        // setIsEnrolled(false);
+        enrolledCourses.map((course) => {
+            if (course.id === Number(id)) {
+                setIsEnrolled(true);
+            }
+        });
+        console.log(isEnrolled);
+    }
 
     useEffect(() => {
-        const getProduct = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(
-                    `https://retoolapi.dev/5do1yM/courses/${id}`
-                );
-                setProduct(response.data);
-            } catch (error) {
-                console.error("Error fetching product:", error);
-            } finally {
-                setLoading(false);
+        // const getProduct = async () => {
+        //     setLoading(true);
+        //     try {
+        //         const response = await axios.get(
+        //             `https://retoolapi.dev/5do1yM/courses/${id}`
+        //         );
+        //         setProduct(response.data);
+        //     } catch (error) {
+        //         console.error("Error fetching product:", error);
+        //     } finally {
+        //         setLoading(false);
+        //     }
+        // };
+        //
+        // getProduct();
+        AxiosInstance.get(`courses/${id}`).then(
+            response => {
+                setCourse(response.data);
+                CheckEnrolled();
             }
-        };
-
-        getProduct();
+        )
     }, [id]);
+
+    const EnrollCourse = () => {
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || false;
+        if(isLoggedIn){
+            const enrolledCourser = JSON.parse(localStorage.getItem("enrolledCourses")) || [];
+            enrolledCourser.push(course);
+            localStorage.setItem("enrolledCourses", JSON.stringify(enrolledCourser));
+            setIsEnrolled(true)
+            setEnrolledSuccess(true);
+            setTimeout(()=>{
+                setEnrolledSuccess(false);
+            }, 3000);
+        } else {
+            setWarning(true);
+            setTimeout(()=>{
+                setWarning(false);
+            }, 3000);
+        }
+
+    }
+
+    const UnEnrollCourse = () => {
+        const enrolledCourses = JSON.parse(localStorage.getItem("enrolledCourses")) || [];
+        const index = enrolledCourses.indexOf(course);
+        enrolledCourses.splice(index, 1);
+        localStorage.setItem("enrolledCourses", JSON.stringify(enrolledCourses));
+        setIsEnrolled(false);
+    }
 
     const Loading = () => {
         return (
@@ -58,39 +104,38 @@ const CourseComp = () => {
                 <Grid item xs={12} md={6}>
                     <CardMedia
                         component="img"
-                        image={product.image}
-                        alt={product.name}
+                        image={course.image}
+                        alt={course.name}
                         height="400"
                         sx={{width: "100%", objectFit: "cover"}}
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <CardContent>
-                        <Typography variant="h6" color="textSecondary" gutterBottom>
-                            {product.category}
-                        </Typography>
                         <Typography variant="h4" component="div" gutterBottom>
-                            {product.name}
+                            {i18n.language === "en"? course.name: course.nameAr}
                         </Typography>
                         <Typography variant="body1" paragraph>
-                            {product.description}
+                            {i18n.language === "en"? course.description:course.descriptionAr}
                         </Typography>
                         <Typography variant="h5" color="textPrimary" gutterBottom>
-                            ${product.price}
+                            ${course.price}
                         </Typography>
-                        <Button
+                        {isEnrolled ? (<Button
                             variant="outlined"
-                            color="primary"
-                            onClick={() => addProduct(product)}
+                            color="warning"
+                            onClick={UnEnrollCourse}
                             sx={{mr: 2}}
                         >
-                            Enroll in the course
-                        </Button>
-                        <Link to="/cart" style={{textDecoration: "none"}}>
-                            <Button variant="contained" color="primary">
-                                Go to cart
-                            </Button>
-                        </Link>
+                            {t("course.unenroll")}
+                        </Button>) :(<Button
+                            variant="contained"
+                            color="primary"
+                            onClick={EnrollCourse}
+                            sx={{mr: 2}}
+                        >
+                            {t("course.enroll")}
+                        </Button>)}
                     </CardContent>
                 </Grid>
             </Grid>
@@ -99,9 +144,36 @@ const CourseComp = () => {
 
     return (
         <Container sx={{py: 5}}>
+            <Box sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "5vh",
+
+            }}>
+                {
+                    warning && <Alert sx={{
+                        width: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginBottom: "5vh",
+                    }} severity="warning">{t("course.login")}</Alert>
+                }
+
+                {
+                    enrolledSuccess && <Alert sx={{
+                        width: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginBottom: "5vh",
+                    }} severity="success">{t("course.enrolled")}</Alert>
+                }
+            </Box>
             {loading ? <Loading/> : <ShowProduct/>}
         </Container>
     );
 };
 
-export default CourseComp;
+export default CourseDetailsPage;
