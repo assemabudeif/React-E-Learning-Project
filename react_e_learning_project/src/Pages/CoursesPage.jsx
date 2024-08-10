@@ -8,7 +8,7 @@ import {
     Card,
     CardMedia,
     CardContent,
-    Skeleton, TextField,
+    Skeleton, TextField, Pagination,
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {GetCoursesList} from "../Store/Action/GetCoursesAction";
@@ -17,6 +17,7 @@ import {useTranslation} from "react-i18next";
 import IconButton from "@mui/material/IconButton";
 import {Favorite} from "@mui/icons-material";
 import CourseComp from "../Components/CourseComp";
+import {AxiosInstance} from "../Network/AxiosInstance";
 
 const CoursesPage = () => {
 
@@ -28,7 +29,27 @@ const CoursesPage = () => {
     const [t, i18n] = useTranslation("global");
     const [search, setSearch] = useState("");
     const isSearchEnglish = RegExp("^[a-zA-Z][a-zA-Z0-9]*$").test(search);
+    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(1);
+    const limit = 12;
 
+
+    const GetTotalPages = () => {
+        AxiosInstance.get('courses',{
+            params: {
+                ...
+                    (minPrice && {price_gte: minPrice}),
+                ...
+                    (maxPrice && {price_lte: maxPrice}),
+                ...
+                    (search && {name: search}),
+            }
+        }).then(
+            res => {
+                setTotalPages(Math.ceil(res.data.length / limit));
+            }
+        )
+    }
 
     const ChangeMinPrice = (event) => {
         setMinPrice(event.target.value);
@@ -41,6 +62,17 @@ const CoursesPage = () => {
         setSearch(event.target.value);
     }
 
+    const ChangePage = (event, value) => {
+        setPage(value)
+        dispatch(GetCoursesList({
+            _page: value,
+            _limit: limit,
+            ...(minPrice && {price_gte: minPrice}),
+            ...(maxPrice && {price_lte: maxPrice}),
+            ...(search && {name: search}),
+        })).then(res => GetTotalPages());
+    }
+
 
     const FilterCourses = () => {
         if(minPrice.length !== 0 && maxPrice.length !== 0) {
@@ -48,11 +80,15 @@ const CoursesPage = () => {
                 price_gte: minPrice,
                 price_lte: maxPrice,
                 name: search,
+                _page: page,
+                _limit: limit,
             } : {
                 price_gte: minPrice,
                 price_lte: maxPrice,
+                _page: page,
+                _limit: limit,
             }
-            dispatch(GetCoursesList(data));
+            dispatch(GetCoursesList(data)).then(res => GetTotalPages());
         }
     }
 
@@ -64,22 +100,34 @@ const CoursesPage = () => {
 
     const SearchCourses = () => {
         if (search === "") {
-            dispatch(GetCoursesList());
+            dispatch(GetCoursesList({
+                _page: page,
+                _limit: limit,
+            })).then(res => GetTotalPages());
             return;
         }
         if (isSearchEnglish) {
             dispatch(GetCoursesList({
                 name: search,
-            }));
+                _page: page,
+                _limit: limit,
+            })).then(res => GetTotalPages());
         } else {
             dispatch(GetCoursesList({
                 nameAr: search,
-            }));
-        }
+                _page: page,
+                _limit: limit,
+            })).then(res => GetTotalPages());        }
     }
 
     useEffect(() => {
-        dispatch(GetCoursesList());
+        dispatch(GetCoursesList(
+            {
+                _page: page,
+                _limit: limit,
+            }
+        ));
+        GetTotalPages();
 
     }, []);
 
@@ -175,6 +223,14 @@ const CoursesPage = () => {
                         </Grid>
                     ))}
                 </Grid>
+
+                <Pagination count={totalPages} page={page} onChange={ChangePage} showFirstButton showLastButton sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    alignContent: "center",
+                    marginY: "4vh"
+                }} />
             </>
         );
     };
@@ -182,7 +238,7 @@ const CoursesPage = () => {
     return (
         <Container style={{marginTop: "40px", marginBottom: "40px"}}>
             <Typography variant="h4" align="center" gutterBottom>
-                Courses Recommended for You
+                {t("home.coursesRecommendedForYou")}
             </Typography>
             <hr/>
 

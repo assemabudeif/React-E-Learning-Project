@@ -16,6 +16,8 @@ export default function AlertDialog(props) {
                 onClose={props.handleCloseDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                fullWidth
+                maxWidth="sm"
             >
                 <DialogTitle id="alert-dialog-title">
                     {props.title}

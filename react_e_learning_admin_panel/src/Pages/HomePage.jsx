@@ -1,12 +1,25 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {GetCoursesList} from "../Store/Actions/GetCoursesAction";
-import {Alert, Box, Button, Fab, Grid, Skeleton, Slider, TextField, Tooltip, Typography} from "@mui/material";
+import {
+    Alert,
+    Box,
+    Button,
+    Fab,
+    Grid,
+    Pagination,
+    Skeleton,
+    Slider,
+    TextField,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import CourseComponent from "../Componentes/CourseComponent";
 import {Add} from "@mui/icons-material";
 import * as React from "react";
 import {Link as RouterLink} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {AxiosInstance} from "../Network/AxiosInstance";
 
 
 function valuetext(value) {
@@ -25,6 +38,27 @@ function HomePage() {
     const [maxPrice, setMaxPrice] = useState("");
     const [search, setSearch] = useState("");
     const isSearchEnglish = RegExp("^[a-zA-Z][a-zA-Z0-9]*$").test(search);
+    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(1);
+    const limit = 12;
+
+    const GetTotalPages = () => {
+        AxiosInstance.get('courses', {
+            params: {
+                ...
+                    (minPrice && {price_gte: minPrice}),
+                ...
+                    (maxPrice && {price_lte: maxPrice}),
+                ...
+                    (search && {name: search}),
+            }
+        }).then(
+            res => {
+                setTotalPages(Math.ceil(res.data.length / limit));
+                console.log("Total Pages" + totalPages);
+            }
+        )
+    }
 
     const ChangeMinPrice = (event) => {
         setMinPrice(event.target.value);
@@ -38,16 +72,33 @@ function HomePage() {
         setSearch(event.target.value);
     }
 
+    const ChangePage = (event, value) => {
+        setPage(value)
+        dispatch(GetCoursesList({
+            _page: value,
+            _limit: limit,
+            ...(minPrice && {price_gte: minPrice}),
+            ...(maxPrice && {price_lte: maxPrice}),
+            ...(search && {name: search}),
+        })).then(res => GetTotalPages());
+    }
+
     const FilterCourses = () => {
-        const data = search ? {
-            price_gte: minPrice,
-            price_lte: maxPrice,
-            name: search,
-        } : {
-            price_gte: minPrice,
-            price_lte: maxPrice,
+        if (minPrice.length !== 0 && maxPrice.length !== 0) {
+            const data = search ? {
+                price_gte: minPrice,
+                price_lte: maxPrice,
+                name: search,
+                _page: page,
+                _limit: limit,
+            } : {
+                price_gte: minPrice,
+                price_lte: maxPrice,
+                _page: page,
+                _limit: limit,
+            }
+            dispatch(GetCoursesList(data)).then(res => GetTotalPages());
         }
-        dispatch(GetCoursesList(data));
     }
 
     const ResetFilter = () => {
@@ -58,22 +109,34 @@ function HomePage() {
 
     const SearchCourses = () => {
         if (search === "") {
-            dispatch(GetCoursesList());
+            setPage(1);
+            dispatch(GetCoursesList({
+                _page: page,
+                _limit: limit,
+            })).then(res => GetTotalPages());
             return;
         }
         if (isSearchEnglish) {
             dispatch(GetCoursesList({
                 name: search,
-            }));
+                _page: page,
+                _limit: limit,
+            })).then(res => GetTotalPages());
         } else {
             dispatch(GetCoursesList({
                 nameAr: search,
-            }));
+                _page: page,
+                _limit: limit,
+            })).then(res => GetTotalPages());
         }
     }
 
     useEffect(() => {
-        dispatch(GetCoursesList());
+        GetTotalPages();
+        dispatch(GetCoursesList({
+            _page: page,
+            _limit: limit,
+        }));
         setCourses(state);
     }, []);
 
@@ -237,6 +300,12 @@ function HomePage() {
                     }
                 </Grid>) : (
                     <>
+                        {
+                            courses.length === 0 ? (
+                                <Typography variant={"h6"} sx={{textAlign: "center", fontSize: "2vh", margin: "2vh"}}>
+                                    {t("home.noCourses")}
+                                </Typography>
+                            ):
 
                         <Grid container rowSpacing={10} columnSpacing={{xs: 1, sm: 2, md: 3}} alignItems={"center"}
                               alignContent={"center"} sx={{
@@ -250,10 +319,19 @@ function HomePage() {
                                 )) : ""
                             }
                         </Grid>
+                        }
                     </>
 
                 )
             }
+            <Pagination count={totalPages} page={page} onChange={ChangePage} showFirstButton showLastButton sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                alignContent: "center",
+                marginY: "4vh"
+            }}/>
+
             <div style={{
                 position: "fixed",
                 right: i18n.language === "en" ? "3vh" : "auto",

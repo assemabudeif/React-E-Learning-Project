@@ -15,6 +15,7 @@ import LoginPage from "./Pages/LoginPage";
 import {Typography} from "@mui/material";
 import FooterComponent from "./Components/FooterComponent";
 import CartPage from "./Pages/CartPage";
+import TermsPage from "./Pages/TermsPage";
 
 function App() {
     const [t, i18n] = useTranslation("global");
@@ -33,6 +34,7 @@ function App() {
                     <Route path={"/login"} element={<LoginPage/>}/>
                     <Route path={"/signup"} element={<SignUpPage/>}/>
                     <Route path={"/cart"} element={<CartPage/>}/>
+                    <Route path={"/terms"} element={<TermsPage/>}/>
                     <Route path={"*"} element={<Box sx={{
                         display: "flex",
                         justifyContent: "center",

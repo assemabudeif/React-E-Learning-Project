@@ -50,7 +50,9 @@
     "filter": "Filter",
     "priceRangeAlert": "First price cannot be greater than the second price.",
     "priceCharacterAlert": "Price cannot be character.",
-    "goToCourse": "Go to course"
+    "goToCourse": "Go to course",
+    "coursesRecommendedForYou": "Courses Recommended For You",
+    "quote": "Every course has real-world projects designed to develop the skills you need to reach your career goals."
   },
   "dialog": {
     "cancel": "Cancel",
@@ -61,5 +63,24 @@
     "unenroll": "Un Enroll Course",
     "login": "Please Login to enroll!",
     "enrolled": "Enrolled Successfully"
+  },
+  "dashboard": {
+    "myCourses": "My Courses",
+    "noCourses": "No courses found",
+    "goToCourse": "Go to course",
+    "welcome": "Welcome",
+    "toDashboard": "to Dashboard"
+  },
+  "wishlist": {
+    "noCourses": "No courses found in wishlist"
+  },
+  "logoutDialog": {
+    "title": "Logout",
+    "content": "Are you sure you want to logout?"
+  },
+  "footer": {
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "allRightsReserved": " All rights reserved."
   }
 }

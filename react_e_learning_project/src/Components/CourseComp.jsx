@@ -28,11 +28,9 @@ function CourseComp(props) {
         e.preventDefault();
         if (isFavorite) {
             setIsFavorite(false);
-            const index = favorites.indexOf(props.course);
-            favorites.splice(index, 1);
-
-            localStorage.setItem("favorites", JSON.stringify(favorites));
-            dispatch(setFavorite(favorites));
+            let newFavorite = favorites.filter((course) => course.id !== props.course.id);
+            localStorage.setItem("favorites", JSON.stringify(newFavorite));
+            dispatch(setFavorite(newFavorite));
         } else {
             setIsFavorite(true);
             favorites.push(props.course);

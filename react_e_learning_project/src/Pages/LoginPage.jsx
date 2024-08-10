@@ -44,6 +44,7 @@ function LoginPage() {
         users.map(user => {
             if (user.email === email && user.password === password) {
                 console.log(user.email, email, user.password, password);
+                localStorage.setItem("currentUser", JSON.stringify(user));
 
                 flag = true;
             }

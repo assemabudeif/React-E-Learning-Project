@@ -2,10 +2,20 @@ import Box from "@mui/material/Box";
 import {useSelector} from "react-redux";
 import CourseComp from "../Components/CourseComp";
 import {Container, Grid} from "@mui/material";
+import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 function WishListPage() {
     const state = useSelector(state => state);
-    const favorites = state.favorites.favorites;
+    const favoritesState = state.favorites.favorites;
+    const [favorites, setFavorites] = useState([]);
+    const [t, i18n] = useTranslation("global");
+
+    useEffect(() => {
+        setFavorites(favoritesState);
+    }, [favoritesState]);
+
+
 
     return (<Container sx={{
             marginTop: "5vh", padding: "10px",
@@ -19,7 +29,7 @@ function WishListPage() {
                     alignContent: "center",
                     height: "68vh",
                 }}>
-                    <h1>No Favorite Movies</h1>
+                    <h1>{t("wishlist.noCourses")}</h1>
                 </Box>)
 
             }

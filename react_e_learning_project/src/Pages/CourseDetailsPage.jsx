@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {addCart} from "../Store/Action/IndexACT";
-import axios from "axios";
+import { useSelector} from "react-redux";
 import {useParams, Link} from "react-router-dom";
 import {
     Button,
@@ -27,7 +25,6 @@ const CourseDetailsPage = () => {
 
     const CheckEnrolled = () => {
         const enrolledCourses = JSON.parse(localStorage.getItem("enrolledCourses")) || [];
-        // setIsEnrolled(false);
         enrolledCourses.map((course) => {
             if (course.id === Number(id)) {
                 setIsEnrolled(true);
@@ -82,9 +79,8 @@ const CourseDetailsPage = () => {
 
     const UnEnrollCourse = () => {
         const enrolledCourses = JSON.parse(localStorage.getItem("enrolledCourses")) || [];
-        const index = enrolledCourses.indexOf(course);
-        enrolledCourses.splice(index, 1);
-        localStorage.setItem("enrolledCourses", JSON.stringify(enrolledCourses));
+        let newEnrolledCourses = enrolledCourses.filter((enrolledCourse) => enrolledCourse.id !== course.id);
+        localStorage.setItem("enrolledCourses", JSON.stringify(newEnrolledCourses));
         setIsEnrolled(false);
     }
 

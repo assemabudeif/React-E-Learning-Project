@@ -73,6 +73,7 @@ function ResponsiveAppBar() {
     const HandleLogout = () => {
         setOpenDialog(false)
         localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("currentUser");
         dispatch(SetIsLoggedIn(false));
         navigator("/");
     }
@@ -145,20 +146,26 @@ function ResponsiveAppBar() {
                                 backgroundColor: 'white',
                                 marginTop: '2vh',
                             }}>
-                                {drawerPages.map((page) => (
-                                    <Button
-                                        textAlign="center"
-                                        component={RouterLink}
-                                        to={page.path}
-                                        onClick={() => toggleDrawer(false)}
-                                        sx={{
-                                            backgroundColor: 'white',
-                                            color: 'black',
-                                            marginBottom: '1vh',
-                                        }}>
-                                        {page.title}
-                                    </Button>
-                                ))}
+                                {drawerPages.map((page) => {
+                                    if(!isLoggedIn && page.path === '/dashboard') return null;
+                                    if(isLoggedIn && page.path === '/login') return null;
+                                    if(isLoggedIn && page.path === '/signup') return null;
+
+                                    return (
+                                        <Button
+                                            textAlign="center"
+                                            component={RouterLink}
+                                            to={page.path}
+                                            onClick={() => toggleDrawer(false)}
+                                            sx={{
+                                                backgroundColor: 'white',
+                                                color: 'black',
+                                                marginBottom: '1vh',
+                                            }}>
+                                            {page.title}
+                                        </Button>
+                                    )
+                                })}
                             </Box>
                         </Drawer>
 
@@ -194,8 +201,9 @@ function ResponsiveAppBar() {
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
-                        {pages.map((page) => (
-                            <Button
+                        {pages.map((page) => {
+                            if(!isLoggedIn && page.path === '/dashboard') return null;
+                            return (<Button
                                 component={RouterLink}
                                 to={page.path}
                                 sx={{
@@ -205,8 +213,8 @@ function ResponsiveAppBar() {
                                 }}
                             >
                                 {page.title}
-                            </Button>
-                        ))}
+                            </Button>)
+                        })}
                     </Box>
                     <Box sx={{display: {xs: 'none', md: 'flex'},}}>
                         <Button onClick={ChangeLanguage}>
@@ -230,7 +238,7 @@ function ResponsiveAppBar() {
                             </>)
                         }
                     </Box>
-                    <AlertDialog content={""} title={""} openDialog={openDialog} handleCloseDialog={handleCloseDialog}
+                    <AlertDialog content={t("logoutDialog.content")} title={t("logoutDialog.title")} openDialog={openDialog} handleCloseDialog={handleCloseDialog}
                                  confirm={HandleLogout}/>
 
                 </Toolbar>

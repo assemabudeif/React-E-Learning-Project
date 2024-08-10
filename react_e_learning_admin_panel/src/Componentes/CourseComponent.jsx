@@ -54,7 +54,8 @@ function CourseComponent(props) {
                     props.course.image !== null ? (
                         <img src={props.course.image} style={{
                             width: "auto",
-                            height: "100%"
+                            height: "auto",
+                            padding: "1vh",
                         }} alt={props.course.name}/>) : (<Image style={{
                         width: "auto",
                         height: "100%"
