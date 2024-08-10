@@ -70,7 +70,8 @@ const CoursesPage = () => {
             ...(minPrice && {price_gte: minPrice}),
             ...(maxPrice && {price_lte: maxPrice}),
             ...(search && {name: search}),
-        })).then(res => GetTotalPages());
+        }));
+            // .then(res => GetTotalPages());
     }
 
 
@@ -236,7 +237,7 @@ const CoursesPage = () => {
                     alignItems: "center",
                     alignContent: "center",
                     marginY: "4vh"
-                }}/>
+                }} dir={i18n.language === "en"?"ltr":"rtl"}/>
             </>
         );
     };

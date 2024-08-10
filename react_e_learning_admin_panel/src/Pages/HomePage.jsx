@@ -43,6 +43,7 @@ function HomePage() {
     const limit = 12;
 
     const GetTotalPages = () => {
+        setPage(1);
         AxiosInstance.get('courses', {
             params: {
                 ...
@@ -80,7 +81,8 @@ function HomePage() {
             ...(minPrice && {price_gte: minPrice}),
             ...(maxPrice && {price_lte: maxPrice}),
             ...(search && {name: search}),
-        })).then(res => GetTotalPages());
+        }))
+            // .then(res => GetTotalPages());
     }
 
     const FilterCourses = () => {
@@ -330,7 +332,7 @@ function HomePage() {
                 alignItems: "center",
                 alignContent: "center",
                 marginY: "4vh"
-            }}/>
+            }} dir={i18n.language === "en"?"ltr":"rtl"}/>
 
             <div style={{
                 position: "fixed",
