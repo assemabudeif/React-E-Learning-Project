@@ -35,7 +35,7 @@ const CoursesPage = () => {
 
 
     const GetTotalPages = () => {
-        AxiosInstance.get('courses',{
+        AxiosInstance.get('courses', {
             params: {
                 ...
                     (minPrice && {price_gte: minPrice}),
@@ -75,7 +75,7 @@ const CoursesPage = () => {
 
 
     const FilterCourses = () => {
-        if(minPrice.length !== 0 && maxPrice.length !== 0) {
+        if (minPrice.length !== 0 && maxPrice.length !== 0) {
             const data = search ? {
                 price_gte: minPrice,
                 price_lte: maxPrice,
@@ -117,7 +117,8 @@ const CoursesPage = () => {
                 nameAr: search,
                 _page: page,
                 _limit: limit,
-            })).then(res => GetTotalPages());        }
+            })).then(res => GetTotalPages());
+        }
     }
 
     useEffect(() => {
@@ -216,13 +217,18 @@ const CoursesPage = () => {
 
                     }}>{t("home.reset")}</Button>
                 </Box>
-                <Grid container spacing={4} justifyContent="center">
-                    {courses.map((Course) => (
-                        <Grid item xs={12} sm={6} md={4} key={Course.id}>
-                            <CourseComp course={Course}/>
+                {
+                    courses.length === 0 ? <Typography variant="h4" align="center" gutterBottom>
+                            {t("home.noCourses")}
+                        </Typography> :
+                        <Grid container spacing={4} justifyContent="center">
+                            {courses.map((Course) => (
+                                <Grid item xs={12} sm={6} md={4} key={Course.id}>
+                                    <CourseComp course={Course}/>
+                                </Grid>
+                            ))}
                         </Grid>
-                    ))}
-                </Grid>
+                }
 
                 <Pagination count={totalPages} page={page} onChange={ChangePage} showFirstButton showLastButton sx={{
                     display: "flex",
@@ -230,7 +236,7 @@ const CoursesPage = () => {
                     alignItems: "center",
                     alignContent: "center",
                     marginY: "4vh"
-                }} />
+                }}/>
             </>
         );
     };

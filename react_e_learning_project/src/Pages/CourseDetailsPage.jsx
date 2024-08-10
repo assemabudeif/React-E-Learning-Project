@@ -103,7 +103,7 @@ const CourseDetailsPage = () => {
                         image={course.image}
                         alt={course.name}
                         height="400"
-                        sx={{width: "100%", objectFit: "cover"}}
+                        sx={{width: "100%", height: "auto"}}
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
