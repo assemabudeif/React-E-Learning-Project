@@ -297,7 +297,7 @@ function SignUpPage() {
           >
             {confirmPassword.length === 0
               ? t("signup.thisFieldRequired")
-              : t("signup.passwordNotMatch")}
+              : t("signup.confirmPasswordValidation")}
           </Alert>
         )}
         {signupError && (

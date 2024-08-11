@@ -62,7 +62,9 @@
     "enroll": "Enroll Now",
     "unenroll": "Un Enroll Course",
     "login": "Please Login to enroll!",
-    "enrolled": "Enrolled Successfully"
+    "enrolled": "Enrolled Successfully",
+    "dialogTitle":"Unenroll Course ",
+    "dialogContent" :"Are you sure to unenroll course ??"
   },
   "dashboard": {
     "myCourses": "My Courses",
