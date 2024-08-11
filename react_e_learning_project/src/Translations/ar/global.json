@@ -35,7 +35,7 @@
     "confirmPasswordValidation": "كلمات المرور غير متطابقة",
     "phoneValidation": "رقم الهاتف غير صالح",
     "ageValidation": "العمر غير صالح",
-    "nameValidation": "الاسم غير صالح، يجب أن يحتوي على 3 أحرف على الأقل",
+    "nameValidation": "الاسم غير صالح، يجب أن يحتوي على 3 أحرف على الأقل و مسافه فاصله بعد كل اسم" ,
     "thisFieldRequired": "هذا الحقل مطلوب",
     "signup": "التسجيل",
     "error": "حدث خطأ"

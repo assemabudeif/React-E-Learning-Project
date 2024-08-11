@@ -35,7 +35,7 @@
     "confirmPasswordValidation": "Passwords do not match",
     "phoneValidation": "Phone number is not valid",
     "ageValidation": "Age is not valid",
-    "nameValidation": "Name is not valid, it must be at least 3 characters",
+    "nameValidation": "Name is not valid, it must be at least 3 characters and 1 space separated between names",
     "thisFieldRequired": "This field is required",
     "signup": "Sign Up",
     "error": "An error occurred"
