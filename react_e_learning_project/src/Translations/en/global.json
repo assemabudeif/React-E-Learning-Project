@@ -74,7 +74,10 @@
     "toDashboard": "to Dashboard"
   },
   "wishlist": {
-    "noCourses": "No courses found in wishlist"
+    "noCourses": "No courses found in wishlist",
+    "dialogContent":"Are you sure to delete course from wishlist??",
+    "dialogTitle": "Delete wishlist item"
+
   },
   "logoutDialog": {
     "title": "Logout",

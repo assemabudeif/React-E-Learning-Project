@@ -73,7 +73,9 @@
     "toDashboard": "في لوحة التحكم"
   },
   "wishlist": {
-    "noCourses": "لم يتم العثور على دورات"
+    "noCourses": "لم يتم العثور على دورات",
+    "dialogContent":"هل أنت متأكد من حذف الدورة من قائمة الرغبات؟؟",
+    "dialogTitle": "حذف عنصر قائمة الرغبات"
   },
   "logoutDialog": {
     "title": "تسجيل الخروج",
