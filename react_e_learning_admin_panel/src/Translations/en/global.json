@@ -34,7 +34,15 @@
     "descriptionAr": "Description (Arabic)",
     "duration": "Duration",
     "image": "Image",
-    "add": "Add"
+    "add": "Add",
+    "nameArValidation": "Name (Arabic) must be at least 3 characters, single space seperator between words and can only contain Arabic letters",
+    "nameEnValidation": "Name (English) must be at least 3 characters, single space seperator between words and can only contain English letters",
+    "descriptionArValidation": "Description (Arabic) must contain Arabic letters and single space seperator between words",
+    "descriptionEnValidation": "Description (English) must contain English letters and single space seperator between words",
+    "priceValidation": "Price must be a number",
+    "durationValidation": "Duration must be a number",
+    "imageValidation": "Image must be a valid URL starting with http or https",
+    "isRequired": "This field is required"
   },
   "editCourse": {
     "title": "Edit Course",
